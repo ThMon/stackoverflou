@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../api/user';
 
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,6 +20,7 @@ export default function Login() {
                 console.log(res)
                 if(res.status === 200) {
                     window.localStorage.setItem("stackoverflou-token", res.data.token);
+                    return navigate("/");
                 }
             })     
     }

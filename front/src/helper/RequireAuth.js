@@ -17,16 +17,13 @@ export default function RequireAuth({children, withAuth}) {
             } else {
                 checkToken(token)
                     .then((res)=>{
-                        console.log(res)
                         if(res.status !== 200) {
                             return navigate("/login");
                         } else {
                             dispatch(loginUserReducer(res.data.user))
                         }
                     })
-            }
-
-            
+            } 
         }
     })
 

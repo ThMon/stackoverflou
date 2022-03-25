@@ -16,6 +16,7 @@ export default function Header(){
             <>
                 <Link to="/">Accueil</Link> 
                 <Link to="/topics">Topics</Link> 
+                <Link to="/profil">Mon profil</Link> 
                 <a
                     href="/"
                     onClick={(e)=>{

@@ -25,3 +25,13 @@ export const saveTopic = (data)=>{
         return {status: 401, data: {msg: "not token found"}}
     }
 }
+
+export const getTopic = (id)=>{
+    return axios.get(`${process.env.REACT_APP_API_URL}/api/topic/${id}`)
+                .then((response)=>{
+                    return response.data;
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
+}

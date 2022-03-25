@@ -9,6 +9,8 @@ import RequireAuth from './helper/RequireAuth';
 import Topics from './components/topic/topics';
 import AddTopic from './components/topic/addTopic';
 import Topic from './components/topic/topic';
+import AddMessage from './components/message/addMessage';
+import Profil from './components/profil/profil';
 
 function App() {
   return (
@@ -45,6 +47,16 @@ function App() {
             <Route path="/topic/:id" element={
               <RequireAuth withAuth={true}>
                 <Topic/>
+              </RequireAuth>
+            }/>
+            <Route path="/addMessage/:topic_id" element={
+              <RequireAuth withAuth={true}>
+                <AddMessage/>
+              </RequireAuth>
+            }/>
+            <Route path="/profil" element={
+              <RequireAuth withAuth={true}>
+                <Profil/>
               </RequireAuth>
             }/>
         </Routes>

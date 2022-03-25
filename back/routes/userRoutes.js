@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const saltRound = 10;
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET;
+const withAuth = require("../withAuth");
 
 module.exports = (app)=> {
     const User = require('../models/user');
@@ -33,7 +34,6 @@ module.exports = (app)=> {
     })
 
     app.post('/api/user/login', async (req, res)=> {
-        
         const user = await User.find({email: req.body.email});
 
         if(user.length <= 0){
@@ -48,5 +48,19 @@ module.exports = (app)=> {
                 res.json({status: 401, msg: "not allowed bad password"})
             }
         }
+    })
+
+    app.put('/api/user/update/:id',  withAuth, async (req, res)=> {
+        const id = req.params.id;
+
+        const data = {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            nickName: req.body.nickName
+        }
+
+        const result = await User.updateOne({_id: id}, data);
+
+        res.json({status: 200, result: result})
     })
 }

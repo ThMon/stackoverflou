@@ -1,13 +1,39 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
-
+import React, {useState, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from '../../api/user';
+import { loadUserInfosReducer } from '../../lib/redux/user/userReducer';
+import {Link} from 'react-router-dom'
 
 export default function Profil() {
-
-    const user = useSelector(state => state.user)
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [nickName, setNickName] = useState("");
+ 
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+    
+    useEffect(()=>{
+        if(user.infos !== null) {
+            setFirstName(user.infos.firstName);
+            setLastName(user.infos.lastName);
+            setNickName(user.infos.nickName);
+        } 
+    }, [user])    
 
     const onSubmitForm = ()=>{
+        const data = {
+            firstName,
+            lastName,
+            nickName
+        }
+        console.log(user.infos._id)
+        updateUser(data, user.infos._id)
+            .then((res)=>{
 
+                if(res.status === 200) {
+                    dispatch(loadUserInfosReducer(res.user))
+                }
+            })
     }
 
     return (
@@ -27,9 +53,9 @@ export default function Profil() {
                         <input
                             type="text"
                             placeholder="Prénom"
-                            value={user.infos.firstName}
+                            value={firstName}
                             onChange={(e)=>{
-                                
+                                setFirstName(e.target.value);
                             }}
                         />
                     </div>
@@ -37,9 +63,9 @@ export default function Profil() {
                         <input
                             type="text"
                             placeholder="Nom"
-                            value={user.infos.lastName}
+                            value={lastName}
                             onChange={(e)=>{
-                                
+                                setLastName(e.target.value)
                             }}
                         />
                     </div>
@@ -47,9 +73,9 @@ export default function Profil() {
                         <input
                             type="text"
                             placeholder="Pseudo"
-                            value={user.infos.nickName}
+                            value={nickName}
                             onChange={(e)=>{
-                                
+                                setNickName(e.target.value)
                             }}
                         />
                     </div>
@@ -57,6 +83,8 @@ export default function Profil() {
                         Envoyer
                     </button>
                 </form>
+
+                <Link to="/admin" className="link-custom">Gérer mes messages</Link>
         </div>
     )
 }

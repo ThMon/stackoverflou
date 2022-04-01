@@ -25,7 +25,7 @@ module.exports = (app)=> {
         res.json({status: 200, result, result})
     })
 
-    app.get('/api/user/:id', async (req, res)=> {
+    app.get('/api/user/:id', withAuth,async (req, res)=> {
         const id = req.params.id;
 
         const user = await User.find({_id: id});
@@ -60,7 +60,8 @@ module.exports = (app)=> {
         }
 
         const result = await User.updateOne({_id: id}, data);
+        const user = await User.find({_id: id});
 
-        res.json({status: 200, result: result})
+        res.json({status: 200, result: result, user: user[0]})
     })
 }

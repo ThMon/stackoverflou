@@ -91,6 +91,9 @@ h2 {
   font-weight: bold;
   padding: 10px 5px;
   border-radius: 9px;
+  background-color: transparent;
+  display:inline-block;
+  margin: 5px 10px;
 }
 
 .list-items {

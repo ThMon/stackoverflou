@@ -1,5 +1,6 @@
 const Message = require('../models/message');
 const User = require('../models/user');
+const Topic = require('../models/topic');
 const withAuth = require('../withAuth');
 
 module.exports = (app)=> {
@@ -54,6 +55,24 @@ module.exports = (app)=> {
 
         res.json({status: 200, data: {msg: "message by topic", messages: completeMessages}});
 
+    })
+
+    app.get("/api/message/by_user/:user_id", withAuth, async (req, res)=>{
+        const user_id = req.params.user_id;
+        const messages = await Message.find({user_id: user_id});
+        if(typeof messages.length !== "number") {
+            res.json({status: 500, data: {msg: "internal server error", err: messages}})
+        }
+
+        const completeMessages = await Promise.all(messages.map(async (message)=>{
+            const topic = await Topic.find({_id: message.topic_id})
+            console.log("Topic", topic)
+            const m = {...message.toObject(), title: topic[0].title}
+            console.log("M", m)
+            return m;
+        }))
+
+        res.json({status: 200, data: {msg: "message by user", messages: completeMessages}});
     })
 
     app.put('/api/message/update/:id', withAuth, async (req, res)=> {

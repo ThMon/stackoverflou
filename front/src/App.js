@@ -11,6 +11,8 @@ import AddTopic from './components/topic/addTopic';
 import Topic from './components/topic/topic';
 import AddMessage from './components/message/addMessage';
 import Profil from './components/profil/profil';
+import Admin from './components/admin/admin';
+import UpdateMessage from './components/message/updateMessage';
 
 function App() {
   return (
@@ -54,9 +56,19 @@ function App() {
                 <AddMessage/>
               </RequireAuth>
             }/>
+            <Route path="admin/updateMessage/:message_id" element={
+              <RequireAuth withAuth={true}>
+                <UpdateMessage/>
+              </RequireAuth>
+            }/>
             <Route path="/profil" element={
               <RequireAuth withAuth={true}>
                 <Profil/>
+              </RequireAuth>
+            }/>
+            <Route path="/admin" element={
+              <RequireAuth withAuth={true}>
+                <Admin/>
               </RequireAuth>
             }/>
         </Routes>
